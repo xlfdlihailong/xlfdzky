@@ -73,6 +73,8 @@ public:
 
     void clear();
     QAction *newAction(QString name);
+    void collapseItem(QTreeWidgetItem* pitem);
+    void collapseAll();
     void expandItem(QTreeWidgetItem* pitem);
     void expandAll();
 

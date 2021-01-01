@@ -197,9 +197,19 @@ void xTreeWidget::clear()
 QAction* xTreeWidget::newAction(QString name)
 {
     QAction* pActionNew=new QAction(name,this);
-    pop_menu->addAction(name);
+    pop_menu->addAction(pActionNew);
     pop_menu->setFont(font);
     return pActionNew;
+}
+
+void xTreeWidget::collapseItem(QTreeWidgetItem *pitem)
+{
+    ui->treeWidget->collapseItem(pitem);
+}
+
+void xTreeWidget::collapseAll()
+{
+    ui->treeWidget->collapseAll();
 }
 
 void xTreeWidget::expandItem(QTreeWidgetItem *pitem)
@@ -500,10 +510,10 @@ void xTreeWidget::on_stuTableWidget_customContextMenuRequested(QPoint pos)
     //获取点击的tablewidget中行和列
     QModelIndex index = ui->treeWidget->indexAt (pos);
     hlog(index.row(),index.column());
-    if(index.row()<0||index.column()<0)
-        return;
-    QTreeWidgetItem *curItem=ui->treeWidget->itemAt(pos);
-    hlog(curItem->text(0));
+//    if(index.row()<0||index.column()<0)
+//        return;
+//    QTreeWidgetItem *curItem=ui->treeWidget->itemAt(pos);
+//    hlog(curItem->text(0));
 //        this->nowRow = index.row ();//获得QTableWidget列表点击的行数
 //        this->nowCol=index.column();
     //    qDebug()<<this->nowRow;

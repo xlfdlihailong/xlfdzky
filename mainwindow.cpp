@@ -39,7 +39,7 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                             <<taskj.arrchJobTaskID
                             <<taskj.arrchTaskMode
                             <<taskj.arrchDataSource);
-                jointTaskj->setTextColor(0,QColor("blue"));
+                jointTaskj->setTextColor(0,QColor("yellow"));
                 //添加通道标识
                 auto jointRoadHeader=ui->ptreer->newJointList(
                             QStringList()<<"通道标识"<<"通道状态"<<"传输百分比");
@@ -188,11 +188,11 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
             countForReduce++;
         }
     }
-    hlog(countForReduce);
+//    hlog(countForReduce);
     //然后一起删除
     for(int k=0;k<countForReduce;k++)
     {
-        hlog(k);
+//        hlog(k);
         for(int i=0;i<ui->ptreer->getRoot().size();i++)
         {
             QTreeWidgetItem* prooti=ui->ptreer->getRoot()[i];
@@ -313,6 +313,18 @@ void MainWindow::threadGetTasks(pliststring listhost)
     sigShowTask(mapTask);
 
 }
+
+void MainWindow::slotExpandAll()
+{
+    hlog("expandAll");
+    ui->ptreer->expandAll();
+}
+
+void MainWindow::slotCollpseAll()
+{
+    hlog("collpaseALL");
+    ui->ptreer->collapseAll();
+}
 void MainWindow::threadGetTasksAll()
 {
     while(1)
@@ -321,20 +333,22 @@ void MainWindow::threadGetTasksAll()
         if(ptc->sendx("getMapSystemTask",host)<0)
         {
             sigMessageBox("连接服务器"+(host)+"失败,请重试");
+            plib::sleep(1000);
             continue;
         }
         presult result=ptc->recvz(5);
         if(result.res<0)
         {
             sigMessageBox("连接服务器"+(host)+"失败,请重试");
+            plib::sleep(1000);
             continue;
         }
         pmap<pstring,plist<TASK_STATUS_STRUCT> > maptaskSystem=(ptc->getClassFromPresult<pmap<pstring,plist<TASK_STATUS_STRUCT> > >(result));
-        hlog(maptaskSystem.size());
+//        hlog(maptaskSystem.size());
         //根据下拉框决定显示哪个系统
-        hlog(plib::toChinese(ui->pcomboxSystem->currentText().toStdString()));
+//        hlog(plib::toChinese(ui->pcomboxSystem->currentText().toStdString()));
         plist<TASK_STATUS_STRUCT> lres=maptaskSystem[ui->pcomboxSystem->currentText().toStdString()];
-        hlog(lres.size());
+//        hlog(lres.size());
         //        plist<TASK_STATUS_STRUCT> lres=maptaskSystem.getValue(0);
         //最终所有列表,如果是单个host就是单个的host任务,如果是系统,则系统内所有站任务都放到一起
         //要根据任务流水号区分任务单流水号
@@ -366,7 +380,7 @@ void MainWindow::threadGetTasksAll()
             mapTask.add(strTaskNumParent,ltaski);
         }
         sigShowTask(mapTask);
-        plib::sleep(3000);
+        plib::sleep(100);
     }
 }
 
@@ -404,7 +418,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->ptreer->setColWidth(0,300);
     ui->ptreer->setColWidth(1,300);
     ui->ptreer->setColWidth(2,220);
+    //右键
 
+    connect(ui->ptreer->newAction("展开所有"),SIGNAL(triggered(bool)),this,SLOT(slotExpandAll()));
+    connect(ui->ptreer->newAction("收缩所有"),SIGNAL(triggered(bool)),
+            this,SLOT(slotCollpseAll()));
 
     //连接11.6服务器
     ptc=new ptcp(host,port);

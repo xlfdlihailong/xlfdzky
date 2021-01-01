@@ -23,6 +23,8 @@ public:
     void threadGetTasks(pliststring listhost);
 
 private slots:
+    void slotExpandAll();
+    void slotCollpseAll();
     //左键点击系统或站点响应
     void slotClickTreeLeftItem(QTreeWidgetItem* item,int column);
     void slotShowTask(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);

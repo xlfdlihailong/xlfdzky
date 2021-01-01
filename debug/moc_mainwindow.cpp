@@ -19,8 +19,8 @@
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[15];
-    char stringdata0[198];
+    QByteArrayData data[17];
+    char stringdata0[227];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -37,18 +37,21 @@ QT_MOC_LITERAL(4, 65, 8), // "mapTasks"
 QT_MOC_LITERAL(5, 74, 13), // "sigMessageBox"
 QT_MOC_LITERAL(6, 88, 7), // "pstring"
 QT_MOC_LITERAL(7, 96, 4), // "info"
-QT_MOC_LITERAL(8, 101, 21), // "slotClickTreeLeftItem"
-QT_MOC_LITERAL(9, 123, 16), // "QTreeWidgetItem*"
-QT_MOC_LITERAL(10, 140, 4), // "item"
-QT_MOC_LITERAL(11, 145, 6), // "column"
-QT_MOC_LITERAL(12, 152, 12), // "slotShowTask"
-QT_MOC_LITERAL(13, 165, 14), // "slotMessageBox"
-QT_MOC_LITERAL(14, 180, 17) // "threadGetTasksAll"
+QT_MOC_LITERAL(8, 101, 13), // "slotExpandAll"
+QT_MOC_LITERAL(9, 115, 14), // "slotCollpseAll"
+QT_MOC_LITERAL(10, 130, 21), // "slotClickTreeLeftItem"
+QT_MOC_LITERAL(11, 152, 16), // "QTreeWidgetItem*"
+QT_MOC_LITERAL(12, 169, 4), // "item"
+QT_MOC_LITERAL(13, 174, 6), // "column"
+QT_MOC_LITERAL(14, 181, 12), // "slotShowTask"
+QT_MOC_LITERAL(15, 194, 14), // "slotMessageBox"
+QT_MOC_LITERAL(16, 209, 17) // "threadGetTasksAll"
 
     },
     "MainWindow\0sigShowTask\0\0"
     "pmap<pstring,plist<TASK_STATUS_STRUCT> >\0"
     "mapTasks\0sigMessageBox\0pstring\0info\0"
+    "slotExpandAll\0slotCollpseAll\0"
     "slotClickTreeLeftItem\0QTreeWidgetItem*\0"
     "item\0column\0slotShowTask\0slotMessageBox\0"
     "threadGetTasksAll"
@@ -61,7 +64,7 @@ static const uint qt_meta_data_MainWindow[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-       6,   14, // methods
+       8,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -69,21 +72,25 @@ static const uint qt_meta_data_MainWindow[] = {
        2,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   44,    2, 0x06 /* Public */,
-       5,    1,   47,    2, 0x06 /* Public */,
+       1,    1,   54,    2, 0x06 /* Public */,
+       5,    1,   57,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       8,    2,   50,    2, 0x08 /* Private */,
-      12,    1,   55,    2, 0x08 /* Private */,
-      13,    1,   58,    2, 0x08 /* Private */,
-      14,    0,   61,    2, 0x08 /* Private */,
+       8,    0,   60,    2, 0x08 /* Private */,
+       9,    0,   61,    2, 0x08 /* Private */,
+      10,    2,   62,    2, 0x08 /* Private */,
+      14,    1,   67,    2, 0x08 /* Private */,
+      15,    1,   70,    2, 0x08 /* Private */,
+      16,    0,   73,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 6,    7,
 
  // slots: parameters
-    QMetaType::Void, 0x80000000 | 9, QMetaType::Int,   10,   11,
+    QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void, 0x80000000 | 11, QMetaType::Int,   12,   13,
     QMetaType::Void, 0x80000000 | 3,    4,
     QMetaType::Void, 0x80000000 | 6,    7,
     QMetaType::Void,
@@ -99,10 +106,12 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->sigShowTask((*reinterpret_cast< pmap<pstring,plist<TASK_STATUS_STRUCT> >(*)>(_a[1]))); break;
         case 1: _t->sigMessageBox((*reinterpret_cast< pstring(*)>(_a[1]))); break;
-        case 2: _t->slotClickTreeLeftItem((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
-        case 3: _t->slotShowTask((*reinterpret_cast< pmap<pstring,plist<TASK_STATUS_STRUCT> >(*)>(_a[1]))); break;
-        case 4: _t->slotMessageBox((*reinterpret_cast< pstring(*)>(_a[1]))); break;
-        case 5: _t->threadGetTasksAll(); break;
+        case 2: _t->slotExpandAll(); break;
+        case 3: _t->slotCollpseAll(); break;
+        case 4: _t->slotClickTreeLeftItem((*reinterpret_cast< QTreeWidgetItem*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2]))); break;
+        case 5: _t->slotShowTask((*reinterpret_cast< pmap<pstring,plist<TASK_STATUS_STRUCT> >(*)>(_a[1]))); break;
+        case 6: _t->slotMessageBox((*reinterpret_cast< pstring(*)>(_a[1]))); break;
+        case 7: _t->threadGetTasksAll(); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -148,13 +157,13 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 6)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 6;
+        _id -= 8;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 6)
+        if (_id < 8)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 6;
+        _id -= 8;
     }
     return _id;
 }
