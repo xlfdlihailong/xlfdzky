@@ -56,7 +56,7 @@ xTreeWidget::xTreeWidget(QWidget *parent) :
 
 
     //设置列数,一般1就行,多个是为xml这种的可以
-        ui->treeWidget->setColumnCount(1);
+    ui->treeWidget->setColumnCount(1);
     //设置选中项
     ui->treeWidget->setSelectionBehavior(QAbstractItemView::SelectItems);
     //为了自动滚动设置的//设置平滑一点
@@ -118,14 +118,14 @@ xTreeWidget::xTreeWidget(QWidget *parent) :
 void xTreeWidget::itemClick(QTreeWidgetItem *item, int column)
 {
     sigClickString(item->text(column),column);
-//    hlog(plib::toChinese(item->text(0).toStdString()));
-//    QTreeWidgetItem *parent = item->parent();   //获取父节点
-//    if(NULL==parent) //注意：最顶端项是没有父节点的
-//        return;
-//    int row = parent->indexOfChild(item); //item在父项中的节点行号(从0开始)
-//    //    qDebug()<<row;
-//    pstring info=plib::toGBK((pstring()<<"click "<<row<<" line").c_str());
-//    hlog(info);
+    //    hlog(plib::toChinese(item->text(0).toStdString()));
+    //    QTreeWidgetItem *parent = item->parent();   //获取父节点
+    //    if(NULL==parent) //注意：最顶端项是没有父节点的
+    //        return;
+    //    int row = parent->indexOfChild(item); //item在父项中的节点行号(从0开始)
+    //    //    qDebug()<<row;
+    //    pstring info=plib::toGBK((pstring()<<"click "<<row<<" line").c_str());
+    //    hlog(info);
     sigClick(item,column);
 
     //获取数据从其他地方
@@ -180,6 +180,35 @@ void xTreeWidget::itemDoubleClick(QTreeWidgetItem *item, int column)
 xTreeWidget::~xTreeWidget()
 {
     delete ui;
+}
+
+int xTreeWidget::getLevelCurrentItem()
+{
+    int count=0;
+    QTreeWidgetItem* pnow=this->pItemCurrent;
+    while(1)
+    {
+        pnow=pnow->parent();
+        if(pnow==NULL)
+        {
+            break;
+        }
+        count++;
+    }
+    return count;
+}
+
+int xTreeWidget::getIndexOfSiblings()
+{
+    //根节点
+    if(this->pItemCurrent->parent()==NULL)
+    {
+        return ui->treeWidget->indexOfTopLevelItem(this->pItemCurrent);
+    }
+    else
+    {
+        return this->pItemCurrent->parent()->indexOfChild(this->pItemCurrent);
+    }
 }
 
 void xTreeWidget::deleteRootItem(QTreeWidgetItem *pitem)
@@ -283,7 +312,7 @@ QVector<QTreeWidgetItem *> xTreeWidget::getAllItems()
         QString str=(*it)->text(0);
         //        qDebug()<<str;
         //通过parent是否是NULL判断是否是根节点
-//        hlog(plib::toChinese(str.toStdString()),(*it)->parent()==NULL);
+        //        hlog(plib::toChinese(str.toStdString()),(*it)->parent()==NULL);
         res.push_back(*it);
         ++it;
     }
@@ -292,9 +321,17 @@ QVector<QTreeWidgetItem *> xTreeWidget::getAllItems()
 
 int xTreeWidget::getIndexOfCurrentLevel()
 {
-    QTreeWidgetItem* pItemCurrent=ui->treeWidget->currentItem();
-    int index=pItemCurrent->parent()->indexOfChild(pItemCurrent);
-    return index;
+    //根节点
+    if(this->pItemCurrent->parent()==NULL)
+    {
+        return ui->treeWidget->indexOfTopLevelItem(this->pItemCurrent);
+    }
+    else
+    {
+        QTreeWidgetItem* pItemCurrent=ui->treeWidget->currentItem();
+        int index=pItemCurrent->parent()->indexOfChild(pItemCurrent);
+        return index;
+    }
 }
 
 QVector<QTreeWidgetItem *> xTreeWidget::getChilds(QTreeWidgetItem *pItemCurrent)
@@ -335,7 +372,7 @@ QVector<QTreeWidgetItem*> xTreeWidget::getRoot()
         if(pitem->parent()==NULL)
         {
             listroot.append(pitem);
-//            hlog(pitem->text(0));
+            //            hlog(pitem->text(0));
         }
     }
     return listroot;
@@ -510,12 +547,14 @@ void xTreeWidget::on_stuTableWidget_customContextMenuRequested(QPoint pos)
     //获取点击的tablewidget中行和列
     QModelIndex index = ui->treeWidget->indexAt (pos);
     hlog(index.row(),index.column());
-//    if(index.row()<0||index.column()<0)
-//        return;
-//    QTreeWidgetItem *curItem=ui->treeWidget->itemAt(pos);
-//    hlog(curItem->text(0));
-//        this->nowRow = index.row ();//获得QTableWidget列表点击的行数
-//        this->nowCol=index.column();
+    //    if(index.row()<0||index.column()<0)
+    //        return;
+    pItemCurrent=ui->treeWidget->itemAt(pos);
+    //直接获取当前item也行....
+    //    ui->treeWidget->currentItem();
+    //    hlog(QTreeWidgetItem *curItem->text(0));
+    //        this->nowRow = index.row ();//获得QTableWidget列表点击的行数
+    //        this->nowCol=index.column();
     //    qDebug()<<this->nowRow;
     //    qDebug()<<this->nowCol;
     //最后再显示,不然出问题

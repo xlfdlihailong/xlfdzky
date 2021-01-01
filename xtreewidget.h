@@ -65,10 +65,13 @@ class xTreeWidget : public QWidget
     Q_OBJECT
 
 public:
+    QTreeWidgetItem *pItemCurrent=NULL;
     QFont font;//全局字体
     explicit xTreeWidget(QWidget *parent = nullptr);
     ~xTreeWidget();
-
+    int getLevelCurrentItem();//获取当前item所在层数
+    int getIndexOfSiblings();//获取当前item所在同级索引,与下边一样
+    int getIndexOfCurrentLevel();//获取当前节点在本层树中的索引
     void deleteRootItem(QTreeWidgetItem* pitem);
 
     void clear();
@@ -85,8 +88,7 @@ public:
     QTreeWidgetItem* newJoint(QString name);
     QTreeWidgetItem* addRoot(QString name);
     QVector<QTreeWidgetItem*> getAllItems();
-    //获取当前节点在本层树中的索引
-    int getIndexOfCurrentLevel();
+
     //获取节点的所有子节点
     QVector<QTreeWidgetItem*> getChilds(QTreeWidgetItem* pItemCurrent);
     //获取当前节点的所有子节点

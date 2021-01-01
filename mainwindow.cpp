@@ -318,6 +318,9 @@ void MainWindow::slotExpandAll()
 {
     hlog("expandAll");
     ui->ptreer->expandAll();
+    hlog(ui->ptreer->pItemCurrent->text(0));
+    hlog(ui->ptreer->getLevelCurrentItem());
+    hlog(ui->ptreer->getIndexOfSiblings());
 }
 
 void MainWindow::slotCollpseAll()
