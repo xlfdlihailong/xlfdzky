@@ -40,6 +40,8 @@ public:
     QHBoxLayout *horizontalLayout;
     QLabel *label;
     QComboBox *pcomboxSystem;
+    QLabel *label_3;
+    QComboBox *pcomboxTaskState;
     QLabel *label_2;
     QComboBox *pcomboxStation;
     xTreeWidget *ptreer;
@@ -76,7 +78,7 @@ public:
         widget = new QWidget(splitter);
         widget->setObjectName(QStringLiteral("widget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(10);
+        sizePolicy1.setHorizontalStretch(12);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
         widget->setSizePolicy(sizePolicy1);
@@ -100,6 +102,16 @@ public:
         pcomboxSystem->setObjectName(QStringLiteral("pcomboxSystem"));
 
         horizontalLayout->addWidget(pcomboxSystem);
+
+        label_3 = new QLabel(widget);
+        label_3->setObjectName(QStringLiteral("label_3"));
+
+        horizontalLayout->addWidget(label_3);
+
+        pcomboxTaskState = new QComboBox(widget);
+        pcomboxTaskState->setObjectName(QStringLiteral("pcomboxTaskState"));
+
+        horizontalLayout->addWidget(pcomboxTaskState);
 
         label_2 = new QLabel(widget);
         label_2->setObjectName(QStringLiteral("label_2"));
@@ -135,7 +147,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1347, 24));
+        menuBar->setGeometry(QRect(0, 0, 1347, 23));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));
@@ -150,6 +162,7 @@ public:
     {
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
         label->setText(QApplication::translate("MainWindow", "\347\263\273\347\273\237:", 0));
+        label_3->setText(QApplication::translate("MainWindow", "\344\273\273\345\212\241\347\212\266\346\200\201:", 0));
         label_2->setText(QApplication::translate("MainWindow", "\347\253\231:", 0));
     } // retranslateUi
 

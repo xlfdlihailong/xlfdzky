@@ -182,10 +182,31 @@ xTreeWidget::~xTreeWidget()
     delete ui;
 }
 
+QWidget *xTreeWidget::getItemWidget(QTreeWidgetItem *src, int col)
+{
+    return ui->treeWidget->itemWidget(src,col);
+}
+
+void xTreeWidget::setItemWidget(QTreeWidgetItem* src,int col,QWidget *des)
+{
+    ui->treeWidget->setItemWidget(src,col,des);
+}
+
+QTreeWidgetItem *xTreeWidget::getCurrentItem()
+{
+    return ui->treeWidget->currentItem();
+}
+
 int xTreeWidget::getLevelCurrentItem()
 {
     int count=0;
     QTreeWidgetItem* pnow=this->pItemCurrent;
+    if(pnow==NULL)
+    {
+        pstring info=(plib::toChinese("当前不属于树范围"));
+        hlog(info);
+        return -1;
+    }
     while(1)
     {
         pnow=pnow->parent();
@@ -223,11 +244,12 @@ void xTreeWidget::clear()
     ui->treeWidget->clear();
 }
 
-QAction* xTreeWidget::newAction(QString name)
+QAction* xTreeWidget::newAction(QString name, int level)
 {
     QAction* pActionNew=new QAction(name,this);
     pop_menu->addAction(pActionNew);
     pop_menu->setFont(font);
+    this->mapActionLevel.add(pActionNew,level);
     return pActionNew;
 }
 
@@ -545,11 +567,31 @@ bool xTreeWidget::inputbox(QString &strInput, QString strdefault)
 void xTreeWidget::on_stuTableWidget_customContextMenuRequested(QPoint pos)
 {
     //获取点击的tablewidget中行和列
-    QModelIndex index = ui->treeWidget->indexAt (pos);
+    QModelIndex index = ui->treeWidget->indexAt(pos);
     hlog(index.row(),index.column());
     //    if(index.row()<0||index.column()<0)
     //        return;
     pItemCurrent=ui->treeWidget->itemAt(pos);
+    //获取当前item的level,然后对应mapActionLevel显示
+    int ilevelNow=this->getLevelCurrentItem();
+
+    for(int i=0;i<mapActionLevel.size();i++)
+    {
+        QAction* pbuti=mapActionLevel.getKey(i);
+        int ilevel=mapActionLevel[pbuti];
+        //如果ilevel>=0,说明有层数限制,如果不是这层的就不显示
+        if(ilevel>=0)
+        {
+            if(ilevel!=ilevelNow)
+            {
+                pbuti->setVisible(false);
+            }
+            else
+            {
+                pbuti->setVisible(true);
+            }
+        }
+    }
     //直接获取当前item也行....
     //    ui->treeWidget->currentItem();
     //    hlog(QTreeWidgetItem *curItem->text(0));
@@ -560,7 +602,6 @@ void xTreeWidget::on_stuTableWidget_customContextMenuRequested(QPoint pos)
     //最后再显示,不然出问题
     pop_menu->exec(QCursor::pos());
 }
-
 void xTreeWidget::sortByColumn(int col)
 {
     qDebug()<<"you click header col: "<<col;

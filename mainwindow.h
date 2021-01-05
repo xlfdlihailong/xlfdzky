@@ -5,6 +5,7 @@
 #include <QTreeWidgetItem>
 #include "qlibwin/qlib.h"
 #include "interface.h"
+#include <QProgressBar>
 namespace Ui {
 class MainWindow;
 }
@@ -20,16 +21,10 @@ public:
     CSGLAll gall;
     plist<TASK_STATUS_STRUCT> lTaskAll;//所有任务
 
-    void threadGetTasks(pliststring listhost);
-
 private slots:
-    void slotExpandAll();
-    void slotCollpseAll();
     //左键点击系统或站点响应
     void slotClickTreeLeftItem(QTreeWidgetItem* item,int column);
     void slotShowTask(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
-    void slotMessageBox(pstring info);
-    void threadGetTasksAll();
 signals:
     void sigShowTask(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
     void sigMessageBox(pstring info);

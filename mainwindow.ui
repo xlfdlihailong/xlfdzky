@@ -43,7 +43,7 @@
       <widget class="QWidget" name="widget" native="true">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>10</horstretch>
+         <horstretch>12</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
@@ -76,6 +76,16 @@
             </item>
             <item>
              <widget class="QComboBox" name="pcomboxSystem"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>任务状态:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="pcomboxTaskState"/>
             </item>
             <item>
              <widget class="QLabel" name="label_2">
@@ -119,7 +129,7 @@
      <x>0</x>
      <y>0</y>
      <width>1347</width>
-     <height>24</height>
+     <height>23</height>
     </rect>
    </property>
   </widget>

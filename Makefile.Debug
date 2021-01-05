@@ -532,6 +532,8 @@ debug\moc_mainwindow.cpp: C:\Qt\Qt5.5.0\5.5\msvc2013\include\QtWidgets\QMainWind
 		C:\Qt\Qt5.5.0\5.5\msvc2013\include\QtGui\QDrag \
 		C:\Qt\Qt5.5.0\5.5\msvc2013\include\QtGui\qdrag.h \
 		interface.h \
+		C:\Qt\Qt5.5.0\5.5\msvc2013\include\QtWidgets\QProgressBar \
+		C:\Qt\Qt5.5.0\5.5\msvc2013\include\QtWidgets\qprogressbar.h \
 		mainwindow.h
 	C:\Qt\Qt5.5.0\5.5\msvc2013\bin\moc.exe $(DEFINES) -D_MSC_VER=1800 -D_WIN32 -IC:/Qt/Qt5.5.0/5.5/msvc2013/mkspecs/win32-msvc2013 -IC:/Users/Administrator/Desktop/xlib/windows/xlfdzky -IC:/Qt/Qt5.5.0/5.5/msvc2013/include -IC:/Qt/Qt5.5.0/5.5/msvc2013/include/QtWidgets -IC:/Qt/Qt5.5.0/5.5/msvc2013/include/QtGui -IC:/Qt/Qt5.5.0/5.5/msvc2013/include/QtANGLE -IC:/Qt/Qt5.5.0/5.5/msvc2013/include/QtCore mainwindow.h -o debug\moc_mainwindow.cpp
 

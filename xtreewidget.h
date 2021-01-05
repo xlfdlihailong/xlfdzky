@@ -67,15 +67,21 @@ class xTreeWidget : public QWidget
 public:
     QTreeWidgetItem *pItemCurrent=NULL;
     QFont font;//全局字体
+    pmap<QAction*,int> mapActionLevel;//右键按钮和显示层数的关系
     explicit xTreeWidget(QWidget *parent = nullptr);
     ~xTreeWidget();
-    int getLevelCurrentItem();//获取当前item所在层数
+    QWidget* getItemWidget(QTreeWidgetItem* src,int col);
+    //给src的item第col行设置des,如果要设置进度条等,则要先加入到树再改,不然不管用
+    void setItemWidget(QTreeWidgetItem* src, int col, QWidget *des);
+    QTreeWidgetItem* getCurrentItem();
+    int getLevelCurrentItem();//获取当前item所在层数,-1表示不属于树范围
     int getIndexOfSiblings();//获取当前item所在同级索引,与下边一样
     int getIndexOfCurrentLevel();//获取当前节点在本层树中的索引
     void deleteRootItem(QTreeWidgetItem* pitem);
 
     void clear();
-    QAction *newAction(QString name);
+    //level表示在哪层显示,-1代表所有层都显示
+    QAction *newAction(QString name,int level=-1);
     void collapseItem(QTreeWidgetItem* pitem);
     void collapseAll();
     void expandItem(QTreeWidgetItem* pitem);
