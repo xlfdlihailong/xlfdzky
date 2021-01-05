@@ -36,10 +36,22 @@ MainWindow::MainWindow(QWidget *parent) :
     //设置默认显示空基系统
     ui->pcomboxSystem->setCurrentText("空基系统");
     //设置右侧任务树控件
-    ui->ptreer->setHeaderText(QStringList()<<"任务流水号"<<"作业任务编号"<<"作业模式"<<"数据源");
+    ui->ptreer->setHeaderText(
+                QStringList()
+                <<"任务流水号"
+                <<"作业任务编号"
+                <<"作业模式"
+                <<"数据源"
+                <<"优先级"
+                <<"卫星名称"
+                <<"预计开始时间");
     ui->ptreer->setColWidth(0,310);
     ui->ptreer->setColWidth(1,200);
     ui->ptreer->setColWidth(2,100);
+    ui->ptreer->setColWidth(3,80);
+    ui->ptreer->setColWidth(4,80);
+    ui->ptreer->setColWidth(5,120);
+
     //右键
     //    connect(ui->ptreer->newAction("复制任务流水号",1),SIGNAL(triggered(bool)),this,SLOT(slotCopyTaskNum()));
     connect(ui->ptreer->newAction("复制任务流水号",1),&QAction::triggered,[this](){
@@ -55,6 +67,18 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->ptreer->newAction("展开所有"),&QAction::triggered,[this](){ui->ptreer->expandAll();});
     connect(ui->ptreer->newAction("收缩所有"),&QAction::triggered,[this](){ui->ptreer->collapseAll();});
 
+    connect(ui->ptreel->newAction("SSH远程",1),&QAction::triggered,[this](){
+        auto item=ui->ptreel->getCurrentItem();
+        //获取站名
+        pstring strNameStation=(item->text(0)).toStdString();
+        //获取系统名
+        pstring strNameSystem=item->parent()->text(0).toStdString();
+        //ip地址
+        pstring strHost=gall.getHostBySystemAndStationName(strNameSystem,strNameStation);
+        hlog(strNameSystem,strNameStation,strHost);
+        //线程putty
+        plib::sshzkyThread(strHost);
+    });
 
     //tcp连接11.6服务器
     ptc=new ptcp(host,port);
@@ -192,11 +216,15 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                             <<taskj.arrchTaskSerialNumber
                             <<taskj.arrchJobTaskID
                             <<taskj.arrchTaskMode
-                            <<taskj.arrchDataSource);
-//                jointTaskj->setTextColor(0,QColor("yellow"));
+                            <<taskj.arrchDataSource
+                            <<toStringYXJ(taskj.shTaskPriority)
+                            <<taskj.arrchSatelliteName
+                            <<taskj.arrchForeseeStartTime);
+                jointTaskj->setTextColor(0,QColor("yellow"));
                 //添加通道标识
                 auto jointRoadHeader=ui->ptreer->newJointList(
-                            QStringList()<<"通道标识"<<"通道状态"<<"传输百分比");
+                            QStringList()<<"通道标识"<<"通道状态"<<"传输百分比"
+                            <<"分配带宽"<<"实际带宽");
 
                 //通道数大于0,有通道执行才显示表头
                 if(taskj.iRoadNumber>0)
@@ -208,7 +236,10 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                     auto jointRoad=ui->ptreer->newJointList(
                                 QStringList()
                                 <<road.arrchRoadNumber
-                                <<toStringState(road.shRoadState));
+                                <<toStringState(road.shRoadState)
+                                <<qlib::toString(road.shFinishPercent)
+                                <<qlib::toString(road.iCompressRatio)
+                                <<qlib::toString(road.iTransferRate));
                     jointRoad->setTextColor(1,QColor("red"));
 //                    jointRoad->setTextColor(2,QColor("red"));
                     //要先加入树再建QProgress,不然不管用
@@ -217,7 +248,9 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                     pbar->setMinimum(0);
                     pbar->setMaximum(100);
                     pbar->setValue(road.shFinishPercent);
+                    pbar->setFont(font);
                     ui->ptreer->setItemWidget(jointRoad,2,pbar);
+
                 }
                 jointRooti->addChild(jointTaskj);
             }
@@ -252,7 +285,10 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                                 <<taskj.arrchTaskSerialNumber
                                 <<taskj.arrchJobTaskID
                                 <<taskj.arrchTaskMode
-                                <<taskj.arrchDataSource);
+                                <<taskj.arrchDataSource
+                                <<toStringYXJ(taskj.shTaskPriority)
+                                <<taskj.arrchSatelliteName
+                                <<taskj.arrchForeseeStartTime);
                     //添加通道标识
                     auto jointRoadHeader=ui->ptreer->newJointList(
                                 QStringList()<<"通道标识"<<"通道状态"<<"传输百分比");
@@ -266,7 +302,10 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                         auto jointRoad=ui->ptreer->newJointList(
                                     QStringList()
                                     <<road.arrchRoadNumber
-                                    <<toStringState(road.shRoadState));
+                                    <<toStringState(road.shRoadState)
+                                    <<qlib::toString(road.shFinishPercent)
+                                    <<qlib::toString(road.iCompressRatio)
+                                    <<qlib::toString(road.iTransferRate));
                         jointRoad->setTextColor(1,QColor("red"));
                         //获取进度条
                         QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(jointRoad,2);
@@ -285,6 +324,9 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                     pItem2Find->setText(1,taskj.arrchJobTaskID);
                     pItem2Find->setText(2,taskj.arrchTaskMode);
                     pItem2Find->setText(3,taskj.arrchDataSource);
+                    pItem2Find->setText(4,toStringYXJ(taskj.shTaskPriority));
+                    pItem2Find->setText(5,taskj.arrchSatelliteName);
+                    pItem2Find->setText(6,taskj.arrchForeseeStartTime);
                     //找通道表头
                     QTreeWidgetItem* pheadRoad=NULL;
                     //如果通道数大于0,则通道表头找到,否则就是null
@@ -314,7 +356,10 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                                 auto jointRoad=ui->ptreer->newJointList(
                                             QStringList()
                                             <<road.arrchRoadNumber
-                                            <<toStringState(road.shRoadState));
+                                            <<toStringState(road.shRoadState)
+                                            <<qlib::toString(road.shFinishPercent)
+                                            <<qlib::toString(road.iCompressRatio)
+                                            <<qlib::toString(road.iTransferRate));
                                 jointRoad->setTextColor(1,QColor("red"));
                                 //获取进度条
                                 QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(jointRoad,2);
@@ -330,6 +375,9 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                                 pItemRoad->setText(0,road.arrchRoadNumber);
                                 pItemRoad->setText(1,toStringState(road.shRoadState));
                                 pItemRoad->setTextColor(1,QColor("red"));
+                                pItemRoad->setText(2,qlib::toString(road.shFinishPercent));
+                                pItemRoad->setText(3,qlib::toString(road.iCompressRatio));
+                                pItemRoad->setText(4,qlib::toString(road.iTransferRate));
                                 //获取进度条
                                 QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(pItemRoad,2);
 //                                hlog(pbar==NULL);
@@ -449,6 +497,16 @@ QString MainWindow::toStringState(int state)
         return "失败";
     else
         return "未知";
+}
+
+QString MainWindow::toStringYXJ(int yxj)
+{
+    if(yxj==0)
+        return "低";
+    else if(yxj==1)
+        return "中";
+    else if(yxj==2)
+        return "高";
 }
 
 MainWindow::~MainWindow()

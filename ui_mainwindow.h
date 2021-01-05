@@ -52,7 +52,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1347, 824);
+        MainWindow->resize(1482, 896);
         QFont font;
         font.setFamily(QStringLiteral("DejaVu Sans Mono"));
         font.setPointSize(12);
@@ -78,7 +78,7 @@ public:
         widget = new QWidget(splitter);
         widget->setObjectName(QStringLiteral("widget"));
         QSizePolicy sizePolicy1(QSizePolicy::Expanding, QSizePolicy::Preferred);
-        sizePolicy1.setHorizontalStretch(12);
+        sizePolicy1.setHorizontalStretch(15);
         sizePolicy1.setVerticalStretch(0);
         sizePolicy1.setHeightForWidth(widget->sizePolicy().hasHeightForWidth());
         widget->setSizePolicy(sizePolicy1);
@@ -147,7 +147,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1347, 23));
+        menuBar->setGeometry(QRect(0, 0, 1482, 22));
         MainWindow->setMenuBar(menuBar);
         statusBar = new QStatusBar(MainWindow);
         statusBar->setObjectName(QStringLiteral("statusBar"));

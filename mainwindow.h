@@ -31,6 +31,7 @@ signals:
     void sigMessageBox(pstring info);
 private:
     QString toStringState(int state);
+    QString toStringYXJ(int yxj);
     ptcp* ptc;
     Ui::MainWindow *ui;
     pstring host="bf36yziked.54http.tech";

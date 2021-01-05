@@ -4,7 +4,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    qlib::loadQss(&a,"flatwhite.css");
+    qlib::loadQss(&a,"psblack.css");
     MainWindow w;
     w.show();
 
