@@ -17,13 +17,13 @@ CXXFLAGS      = -nologo -Zc:wchar_t -FS -Zi -MDd -GR -W3 -w34100 -w34189 -w44996
 INCPATH       = -I. -IC:\Qt\Qt5.5.0\5.5\msvc2013\include -IC:\Qt\Qt5.5.0\5.5\msvc2013\include\QtWidgets -IC:\Qt\Qt5.5.0\5.5\msvc2013\include\QtGui -IC:\Qt\Qt5.5.0\5.5\msvc2013\include\QtANGLE -IC:\Qt\Qt5.5.0\5.5\msvc2013\include\QtCore -Idebug -I. -IC:\Qt\Qt5.5.0\5.5\msvc2013\mkspecs\win32-msvc2013 
 LINKER        = link
 LFLAGS        = /NOLOGO /DYNAMICBASE /NXCOMPAT /DEBUG /SUBSYSTEM:WINDOWS "/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'"
-LIBS          = /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013\lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\qtmaind.lib shell32.lib /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013\lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Cored.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Widgetsd.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Guid.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Cored.lib 
+LIBS          = /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013\lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\qtmaind.lib shell32.lib /LIBPATH:C:\Qt\Qt5.5.0\5.5\msvc2013\lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Cored.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Widgetsd.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Guid.lib C:\Qt\Qt5.5.0\5.5\msvc2013\lib\Qt5Cored.lib debug\xlfdzky_resource.res 
 QMAKE         = C:\Qt\Qt5.5.0\5.5\msvc2013\bin\qmake.exe
 IDC           = idc
 IDL           = midl
 ZIP           = zip -r -9
 DEF_FILE      = 
-RES_FILE      = 
+RES_FILE      = debug\xlfdzky_resource.res
 COPY          = copy /y
 SED           = $(QMAKE) -install sed
 COPY_FILE     = copy /y
@@ -196,10 +196,13 @@ DESTDIR_TARGET = debug\xlfdzky.exe
 first: all
 all: Makefile.Debug  $(DESTDIR_TARGET)
 
-$(DESTDIR_TARGET): ui_mainwindow.h ui_xtablewidget.h ui_xtreewidget.h $(OBJECTS) 
+$(DESTDIR_TARGET): ui_mainwindow.h ui_xtablewidget.h ui_xtreewidget.h $(OBJECTS) debug\xlfdzky_resource.res
 	$(LINKER) $(LFLAGS) /MANIFEST:embed /OUT:$(DESTDIR_TARGET) @<<
 $(OBJECTS) $(LIBS)
 <<
+
+debug\xlfdzky_resource.res: xlfdzky_resource.rc
+	rc -D_DEBUG $(DEFINES) -fo debug\xlfdzky_resource.res xlfdzky_resource.rc
 
 qmake: FORCE
 	@$(QMAKE) -spec win32-msvc2013 "CONFIG+=debug" -o Makefile.Debug xlfdzky.pro
@@ -212,6 +215,7 @@ dist:
 clean: compiler_clean 
 	-$(DEL_FILE) debug\main.obj debug\mainwindow.obj debug\qlib.obj debug\plib.obj debug\ptcp.obj debug\pudp.obj debug\pxml.obj debug\tinystr.obj debug\tinyxml.obj debug\tinyxmlerror.obj debug\tinyxmlparser.obj debug\xtablewidget.obj debug\xtreewidget.obj debug\qrc_xlfd.obj debug\moc_mainwindow.obj debug\moc_qlib.obj debug\moc_xtablewidget.obj debug\moc_xtreewidget.obj
 	-$(DEL_FILE) debug\xlfdzky.exp debug\xlfdzky.ilk debug\xlfdzky.idb
+	-$(DEL_FILE) debug\xlfdzky_resource.res
 
 distclean: clean 
 	-$(DEL_FILE) debug\xlfdzky.lib debug\xlfdzky.pdb

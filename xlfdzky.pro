@@ -44,3 +44,4 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     xlfd.qrc
+RC_ICONS =app.ico

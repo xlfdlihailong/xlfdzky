@@ -25,9 +25,11 @@ private slots:
 
     //左键点击系统或站点响应
     void slotClickTreeLeftItem(QTreeWidgetItem* item,int column);
-    void slotShowTask(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
+    void slotShowTaskForTaskNumParent(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
+    void slotShowTask(plist<TASK_STATUS_STRUCT> mapTasks);
 signals:
-    void sigShowTask(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
+    void sigShowTaskForTaskNumParent(pmap<pstring,plist<TASK_STATUS_STRUCT>> mapTasks);
+    void sigShowTask(plist<TASK_STATUS_STRUCT> mapTasks);
     void sigMessageBox(pstring info);
 private:
     QString toStringState(int state);
