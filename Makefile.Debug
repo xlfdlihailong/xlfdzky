@@ -247,6 +247,60 @@ debug\qrc_xlfd.cpp: xlfd.qrc \
 		qss\flatblue.css \
 		qss\silvery.css \
 		qss\lightblack.css \
+		qss\flatblue\checkbox_checked_disable.png \
+		qss\flatblue\checkbox_checked.png \
+		qss\flatblue\add_left.png \
+		qss\flatblue\add_right.png \
+		qss\flatblue\checkbox_unchecked_disable.png \
+		qss\flatblue\radiobutton_checked_disable.png \
+		qss\flatblue\checkbox_unchecked.png \
+		qss\flatblue\add_top.png \
+		qss\flatblue\calendar_prevmonth.png \
+		qss\flatblue\checkbox_parcial.png \
+		qss\flatblue\radiobutton_unchecked_disable.png \
+		qss\flatblue\branch_open.png \
+		qss\flatblue\calendar_nextmonth.png \
+		qss\flatblue\add_bottom.png \
+		qss\flatblue\radiobutton_checked.png \
+		qss\flatblue\branch_close.png \
+		qss\flatblue\checkbox_parcial_disable.png \
+		qss\flatblue\radiobutton_unchecked.png \
+		qss\lightgray\checkbox_checked_disable.png \
+		qss\lightgray\checkbox_checked.png \
+		qss\lightgray\add_left.png \
+		qss\lightgray\add_right.png \
+		qss\lightgray\checkbox_unchecked_disable.png \
+		qss\lightgray\radiobutton_checked_disable.png \
+		qss\lightgray\checkbox_unchecked.png \
+		qss\lightgray\add_top.png \
+		qss\lightgray\calendar_prevmonth.png \
+		qss\lightgray\checkbox_parcial.png \
+		qss\lightgray\radiobutton_unchecked_disable.png \
+		qss\lightgray\branch_open.png \
+		qss\lightgray\calendar_nextmonth.png \
+		qss\lightgray\add_bottom.png \
+		qss\lightgray\radiobutton_checked.png \
+		qss\lightgray\branch_close.png \
+		qss\lightgray\checkbox_parcial_disable.png \
+		qss\lightgray\radiobutton_unchecked.png \
+		qss\darkblue\checkbox_checked_disable.png \
+		qss\darkblue\checkbox_checked.png \
+		qss\darkblue\add_left.png \
+		qss\darkblue\add_right.png \
+		qss\darkblue\checkbox_unchecked_disable.png \
+		qss\darkblue\radiobutton_checked_disable.png \
+		qss\darkblue\checkbox_unchecked.png \
+		qss\darkblue\add_top.png \
+		qss\darkblue\calendar_prevmonth.png \
+		qss\darkblue\checkbox_parcial.png \
+		qss\darkblue\radiobutton_unchecked_disable.png \
+		qss\darkblue\branch_open.png \
+		qss\darkblue\calendar_nextmonth.png \
+		qss\darkblue\add_bottom.png \
+		qss\darkblue\radiobutton_checked.png \
+		qss\darkblue\branch_close.png \
+		qss\darkblue\checkbox_parcial_disable.png \
+		qss\darkblue\radiobutton_unchecked.png \
 		qss\psblack\checkbox_checked_disable.png \
 		qss\psblack\checkbox_checked.png \
 		qss\psblack\add_left.png \
@@ -265,6 +319,42 @@ debug\qrc_xlfd.cpp: xlfd.qrc \
 		qss\psblack\branch_close.png \
 		qss\psblack\checkbox_parcial_disable.png \
 		qss\psblack\radiobutton_unchecked.png \
+		qss\lightblue\checkbox_checked_disable.png \
+		qss\lightblue\checkbox_checked.png \
+		qss\lightblue\add_left.png \
+		qss\lightblue\add_right.png \
+		qss\lightblue\checkbox_unchecked_disable.png \
+		qss\lightblue\radiobutton_checked_disable.png \
+		qss\lightblue\checkbox_unchecked.png \
+		qss\lightblue\add_top.png \
+		qss\lightblue\calendar_prevmonth.png \
+		qss\lightblue\checkbox_parcial.png \
+		qss\lightblue\radiobutton_unchecked_disable.png \
+		qss\lightblue\branch_open.png \
+		qss\lightblue\calendar_nextmonth.png \
+		qss\lightblue\add_bottom.png \
+		qss\lightblue\radiobutton_checked.png \
+		qss\lightblue\branch_close.png \
+		qss\lightblue\checkbox_parcial_disable.png \
+		qss\lightblue\radiobutton_unchecked.png \
+		qss\flatwhite\checkbox_checked_disable.png \
+		qss\flatwhite\checkbox_checked.png \
+		qss\flatwhite\add_left.png \
+		qss\flatwhite\add_right.png \
+		qss\flatwhite\checkbox_unchecked_disable.png \
+		qss\flatwhite\radiobutton_checked_disable.png \
+		qss\flatwhite\checkbox_unchecked.png \
+		qss\flatwhite\add_top.png \
+		qss\flatwhite\calendar_prevmonth.png \
+		qss\flatwhite\checkbox_parcial.png \
+		qss\flatwhite\radiobutton_unchecked_disable.png \
+		qss\flatwhite\branch_open.png \
+		qss\flatwhite\calendar_nextmonth.png \
+		qss\flatwhite\add_bottom.png \
+		qss\flatwhite\radiobutton_checked.png \
+		qss\flatwhite\branch_close.png \
+		qss\flatwhite\checkbox_parcial_disable.png \
+		qss\flatwhite\radiobutton_unchecked.png \
 		icons\gear--pencil.png \
 		icons\setoption.png \
 		icons\Exit_01.png \

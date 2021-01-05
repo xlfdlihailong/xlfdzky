@@ -174,19 +174,11 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
         plist<TASK_STATUS_STRUCT> ltaski=mapTasks.getValue(i);
         //遍历树的根节点,先找所有root节点任务单流水号看有没有已经有的,有的更新,没有的删除
         QVector<QTreeWidgetItem*> listroot= ui->ptreer->getRoot();
-        int ifind=-1;
-        for(int j=0;j<listroot.size();j++)
-        {
-            QTreeWidgetItem* pitem=listroot[j];
-            if(pstring(pitem->text(0).toStdString())==strTaskNumParent)
-            {
-                //                hlog(strTaskNumParent);
-                ifind=j;
-                break;
-            }
-        }
-        //找不到,新增
-        if(ifind<0)
+        auto it=std::find_if(listroot.begin(),listroot.end(),[strTaskNumParent](QTreeWidgetItem* pItem){
+            return pstring(pItem->text(0).toStdString())==strTaskNumParent;
+        });
+        //找不到任务单流水号,则新建
+        if(it==listroot.end())
         {
             //添加根节点,任务单流水号
             auto jointRooti=ui->ptreer->addRootList(QStringList()<<strTaskNumParent.c_str());
@@ -201,7 +193,7 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                             <<taskj.arrchJobTaskID
                             <<taskj.arrchTaskMode
                             <<taskj.arrchDataSource);
-                jointTaskj->setTextColor(0,QColor("yellow"));
+//                jointTaskj->setTextColor(0,QColor("yellow"));
                 //添加通道标识
                 auto jointRoadHeader=ui->ptreer->newJointList(
                             QStringList()<<"通道标识"<<"通道状态"<<"传输百分比");
@@ -216,7 +208,8 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                     auto jointRoad=ui->ptreer->newJointList(
                                 QStringList()
                                 <<road.arrchRoadNumber
-                                <<qlib::toString(road.shRoadState));
+                                <<toStringState(road.shRoadState));
+                    jointRoad->setTextColor(1,QColor("red"));
 //                    jointRoad->setTextColor(2,QColor("red"));
                     //要先加入树再建QProgress,不然不管用
                     jointRoadHeader->addChild(jointRoad);
@@ -232,7 +225,8 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
         else
         {
             //找到了,则更新,先获取这个根节点--也就是任务单流水号
-            QTreeWidgetItem* prootFind=listroot[ifind];
+//            QTreeWidgetItem* prootFind=listroot[ifind];
+            QTreeWidgetItem* prootFind=*it;
             //遍历每个任务
             for(int j=0;j<ltaski.size();j++)
             {
@@ -249,7 +243,6 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                         break;
                     }
                 }
-                //                hlog(ifind2);
                 //没有找到这个任务,则新建
                 if(ifind2<0)
                 {
@@ -273,7 +266,8 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                         auto jointRoad=ui->ptreer->newJointList(
                                     QStringList()
                                     <<road.arrchRoadNumber
-                                    <<qlib::toString(road.shRoadState));
+                                    <<toStringState(road.shRoadState));
+                        jointRoad->setTextColor(1,QColor("red"));
                         //获取进度条
                         QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(jointRoad,2);
 //                        hlog(pbar==NULL);
@@ -320,7 +314,8 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                                 auto jointRoad=ui->ptreer->newJointList(
                                             QStringList()
                                             <<road.arrchRoadNumber
-                                            <<qlib::toString(road.shRoadState));
+                                            <<toStringState(road.shRoadState));
+                                jointRoad->setTextColor(1,QColor("red"));
                                 //获取进度条
                                 QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(jointRoad,2);
 //                                hlog(pbar==NULL);
@@ -333,7 +328,8 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
                                 //找到该通道,直接更新通道
                                 QTreeWidgetItem* pItemRoad=pheadRoad->child(ifind3);
                                 pItemRoad->setText(0,road.arrchRoadNumber);
-                                pItemRoad->setText(1,qlib::toString(road.shRoadState));
+                                pItemRoad->setText(1,toStringState(road.shRoadState));
+                                pItemRoad->setTextColor(1,QColor("red"));
                                 //获取进度条
                                 QProgressBar* pbar=(QProgressBar*)ui->ptreer->getItemWidget(pItemRoad,2);
 //                                hlog(pbar==NULL);
@@ -441,6 +437,18 @@ void MainWindow::slotShowTask(pmap<pstring, plist<TASK_STATUS_STRUCT> > mapTasks
     //            jointRooti->addChild(jointTaskj);
     //        }
     //    }
+}
+
+QString MainWindow::toStringState(int state)
+{
+    if(state==5)
+        return "正在执行";
+    else if(state==9)
+        return "完成";
+    else if(state==10)
+        return "失败";
+    else
+        return "未知";
 }
 
 MainWindow::~MainWindow()
